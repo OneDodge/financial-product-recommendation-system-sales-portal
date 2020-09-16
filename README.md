@@ -1,6 +1,6 @@
 # financial-product-recommendation-system-sales-portal
 
-This is a sample sales portal project for [Financial Product Recommendation System](https://github.com/OneDodge/financial-product-recommendation-system)
+This is a sample sales portal project demonstraing how to improve sales by leveraging Recommendation System 
 
 ## Backend Server
 If you want to get hold of the latest Backend please visit [Financial Product Recommendation System](https://github.com/OneDodge/financial-product-recommendation-system)
