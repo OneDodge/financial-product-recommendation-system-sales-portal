@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Sales Portal By Customer</title>
+</head>
+
+<body>
+    <input type="text" class="form-control" id="query" aria-describedby="queryHelp" placeholder="Customer Identifier"
+        value="CUST00000134">
+    <button id="submit" onclick="loadCustomer()"> submit</button>
+    <div class=" container-fluid">
+        <div class="row">
+            <div class="col" id="userInfo">
+                Customer Information
+            </div>
+            <div class="col" id="productInfo">
+                Current Portfolio
+            </div>
+            <div class="col" id="recommendationInfo">
+                Product Recommendation
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        function loadCustomer() {
+            customerIdentifier = document.getElementById("query").value
+
+            if (customerIdentifier != null) {
+                customerIdentifier = "?user=" + customerIdentifier
+            }
+            url = "http://localhost:5000/recommendation/data" + customerIdentifier
+
+            d3.json(url).then(function (data) {
+                console.log(data[0]);
+
+                user_info = ['age_category', 'gender', 'marital_status', 'have_child', 'education',]
+                product_info = ['product_name', 'asset_class']
+                full_info = ['user', 'age', 'gender', 'marital_status', 'have_child', 'education', 'product_name', '3year_return', 'standard_deviation',
+                    'dividend', 'asset_class', 'age_category', 'user_index', 'age_index', 'gender_index', 'education_index', 'have_child_index', 'marital_status_index',
+                    'product_index', 'asset_class_index']
+
+                function userInfo(data, columns) {
+                    d3.select('#userInfo').select("table").remove();
+                    var table = d3.select('#userInfo').append('table').attr("class", "table table-striped table-sm")
+                    var thead = table.append('thead')
+                    var tbody = table.append('tbody');
+
+                    // append the header row
+                    thead.append('tr').attr("scope", "col")
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function (column) { return column; });
+
+                    // create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function (row) {
+                            return columns.map(function (column) {
+                                return { column: column, value: row[column] };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function (d) { return d.value; });
+
+                    return table;
+                }
+
+                function productInfo(data, columns) {
+                    d3.select('#productInfo').select("table").remove();
+                    var table = d3.select('#productInfo').append('table').attr("class", "table table-striped table-sm")
+                    var thead = table.append('thead')
+                    var tbody = table.append('tbody');
+
+                    // append the header row
+                    thead.append('tr').attr("scope", "col")
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function (column) { return column; });
+
+                    // create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function (row) {
+                            return columns.map(function (column) {
+                                return { column: column, value: row[column] };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function (d) { return d.value; });
+
+                    return table;
+                }
+
+                function recommendationInfo(data, columns) {
+                    d3.select('#recommendationInfo').select("table").remove();
+                    var table = d3.select('#recommendationInfo').append('table').attr("class", "table table-striped table-sm")
+                    var thead = table.append('thead')
+                    var tbody = table.append('tbody');
+
+                    // append the header row
+                    thead.append('tr').attr("scope", "col")
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function (column) { return column; });
+
+                    // create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function (row) {
+                            return columns.map(function (column) {
+                                return { column: column, value: row[column] };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function (d) { return d.value; });
+
+                    return table;
+                }
+
+                d3.json("http://localhost:5000/recommendation/product", {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    },
+                    body: JSON.stringify({
+                        "user": data[0].user,
+                        "age": data[0].age,
+                        "gender": data[0].gender,
+                        "maritalStatus": data[0].marital_status,
+                        "haveChild": data[0].have_child,
+                        "education": data[0].education
+                    })
+                }).then(function (data) {
+                    recommendationInfo(data, ['probability (%)', 'product_name'])
+                })
+
+                userInfo(data, user_info);
+                productInfo(data, product_info)
+            });
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
