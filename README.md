@@ -10,7 +10,7 @@ Before you begin, please update the Sales Portal By Customer configuration (./sa
 If you are using default endpoint then you do not need to update this config
 ```
 line 57: url = "http://localhost:5000/recommendation/data"
-line167: http://localhost:5000/recommendation/product
+line 167: http://localhost:5000/recommendation/product
 ```
 
 ## Sales Portal By Product Configuration
