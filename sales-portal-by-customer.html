@@ -10,23 +10,40 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <link href="./resources/css/all.css" rel="stylesheet">
     <title>Sales Portal By Customer</title>
 </head>
 
 <body>
-    <input type="text" class="form-control" id="query" aria-describedby="queryHelp" placeholder="Customer Identifier"
-        value="CUST00000134">
-    <button id="submit" onclick="loadCustomer()"> submit</button>
+    <div class="page-header page-header-dark bg-primary pb-10">
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input id="query" type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                    value="CUST00000134" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" onclick="loadCustomer()">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class=" container-fluid">
         <div class="row">
-            <div class="col" id="userInfo">
-                Customer Information
+            <div class="col card mb-4">
+                <div class="card-header">Customer Information</div>
+                <div class="card-body" id="userInfo">
+                </div>
             </div>
-            <div class="col" id="productInfo">
-                Current Portfolio
+            <div class="col card mb-4">
+                <div class="card-header">Current Portfolio</div>
+                <div class="card-body" id="productInfo">
+                </div>
             </div>
-            <div class="col" id="recommendationInfo">
-                Product Recommendation
+            <div class="col card mb-4">
+                <div class="card-header">Product Recommendation</div>
+                <div class="card-body" id="recommendationInfo">
+                </div>
             </div>
         </div>
     </div>
